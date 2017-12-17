@@ -1,12 +1,12 @@
+import os
 import pysftp as sftp
 
 
-def push_file_to_server():
+def upload_file(local_path):
     s = sftp.Connection(host='192.168.0.5',
                         username='ffran')
-    local_path = "test.txt"
-    remote_path = "/home/ffran/testsftp.txt"
-    s.put(local_path, remote_path)
+    remote_path = "/home/ffran/testsftp/" + os.path.basename(local_path)
+    #s.put(local_path, remote_path)
     print(local_path + "    ----->     " + remote_path)
     s.close()
 
@@ -15,7 +15,7 @@ def get_file_from_server():
                         username='ffran')
     local_path = "test_retour.txt"
     remote_path = "/home/ffran/testsftp.txt"
-    s.get(remote_path, local_path)
+    #s.get(remote_path, local_path)
     print(remote_path + "    ----->     " + local_path)
     s.close()
 
