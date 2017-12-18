@@ -1,18 +1,19 @@
-import util_sftp as sftp
 import util_ssh as ssh
+from client import Client
 import util
 
+user = 'ffran'
+local = '192.168.0.5'
+extern = '70.80.147.138'
+
+client = Client(user=user, host=extern, key='C:\\Users\\ffran\\.ssh\\home_server.id_rsa')
 
 while True:
-    util.clear_console()
-    print('\n\n\n\t[1] Upload file')
-    print('\t[2] Download file')
-    print('\t[3] Navigate')
+    util.main_menu()
     choix = input('\t')
     if choix == '1':
-        sftp.upload_file(input('\n\tfile path: '))        
-        input()
+        client.upload_file(input('\n\tlocal file to upload: '))        
     elif choix == '2':
-        pass
+        client.download_file(input('\n\tremote file to download: '))
     elif choix == '3':
-        pass
+        util.navigate(client.get_user(), client.get_host())
