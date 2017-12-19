@@ -2,3 +2,6 @@ __pycache__
 _connexion.txt
 _PuTTy
 deposit
+*.swa
+*.swo
+*.swp
