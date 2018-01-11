@@ -2,6 +2,7 @@ import os
 from sftp import Client
 import util
 
+#/home/pi/Downloads
 ####################################################
 USER = 'pi'
 HOST = '192.168.0.6'
