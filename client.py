@@ -13,7 +13,7 @@ DEFAULT_REMOTE_DEPOSIT = "/home/pi/Downloads"
 
 
 
-if True:
+try:
     client = Client(user=USER,
                     host=HOST,
                     key=KEY,
