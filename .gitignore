@@ -1,7 +1,7 @@
 __pycache__
-_connexion.txt
 _PuTTy
 deposit
+ssh_files*
 *.swa
 *.swo
 *.swp

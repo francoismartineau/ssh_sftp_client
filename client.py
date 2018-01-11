@@ -1,17 +1,27 @@
+import os
 from sftp import Client
 import util
 
-user = 'ffran'
-host = util.hosts['local']
+####################################################
+USER = 'pi'
+HOST = '192.168.0.6'
+KEY = 'C:\\Users\\ffran\\.ssh\\raspberrypi.id_rsa'
+DEFAULT_LOCAL_DEPOSIT = "C:\\Users\\ffran\\Downloads"
+DEFAULT_REMOTE_DEPOSIT = "/home/pi/Downloads"
+####################################################
 
 
-client = Client(user=user, host=host, key='C:\\Users\\ffran\\.ssh\\home_server.id_rsa')
-while True:
-    util.main_menu()
-    choix = input('\t')
-    if choix == '1':
-        client.upload_file(input('\n\tlocal file to upload: '), input('\n\tserver directory: '))        
-    elif choix == '2':
-        client.download_file(input('\n\tserver file to download: '))
-    elif choix == '3':
-        util.navigate(user, host)
+
+
+if True:
+    client = Client(user=USER,
+                    host=HOST,
+                    key=KEY,
+                    default_local_deposit=DEFAULT_LOCAL_DEPOSIT,
+                    default_remote_deposit=DEFAULT_REMOTE_DEPOSIT)
+    while True:
+        client.display_main_menu()
+        client.get_entry()
+
+except Exception as e:
+    util.error(e)

@@ -1,50 +1,64 @@
 import os, pysftp
+import util
 
 
-class Client:
-    def __init__(self, user, host, key):
-        self.host = host
+
+class Client(pysftp.Connection):
+    def __init__(self, user, host, key, default_local_deposit, default_remote_deposit):
         self.user = user
+        self.host = host
         self.key = key
+        self.default_local_deposit = default_local_deposit
+        self.default_remote_deposit = default_remote_deposit
 
-    def upload_file(self, local_path, remote_path):
-        remote_path = self.clean_remote_path(remote_path) + os.path.basename(local_path)
-        sftp = pysftp.Connection(host=self.host, username=self.user, private_key=self.key)
-        input('\t' + local_path + "    ----->     " + remote_path)
-        sftp.put(local_path, remote_path)
-        sftp.close()
+    def display_main_menu(self):
+        util.clear_console()
+        util.print_title()
+        print("\n\n")
+        self.tabs = "\t"
+        print(self.tabs + "[1] Upload")
+        print(self.tabs + "[2] Download")
+        print(self.tabs + "[3] Git bash")
     
-    def download_file(self, remote_path):
-        remote_path = self.clean_remote_path(remote_path)
-        sftp = pysftp.Connection(host=self.host, username=self.user, private_key=self.key)
-        local_path = os.path.join("C:\\_util\\home_server\\deposit", os.path.basename(remote_path))
-        input('\t' + remote_path + "    ----->     " + local_path)
-        sftp.get(remote_path, local_path)
-        sftp.close()
+    def get_entry(self):
+        answer = input(self.tabs)
+        if answer == '1':
+            self.upload_file()
+        elif answer == '2':
+            self.download_file()
+        elif answer == '3':
+            util.git_bash()
 
-    @staticmethod
-    def clean_remote_path(path):
-        while True:
-            if path[0] == ' ':
-                path = path[1:]
-            else:
-                break
-        i = len(path) - 1
-        while True:
-            if path[i] == ' ':
-                path = path[:i]
-            else:
-                break
-            i -= 1
-        if path[0] == '~':
-            path = '/home/ffran' + path[1:]
-        return path
- 
-    def get_user(self):
-        return self.user
+    def upload_file(self):
+        pysftp.Connection.__init__(self, host=self.host, username=self.user, private_key=self.key)
+        local_file = input(self.tabs + "Local file: ")
+        if os.path.isfile(local_file):
+            remote_deposit = input(self.tabs + "Remote folder(optional): ")
+            if not remote_deposit or not self.isdir(remote_deposit):
+                print(self.tabs + "default deposit used")
+                remote_deposit = self.default_remote_deposit
+            remote_file = remote_deposit + "/" + os.path.basename(local_file)
+            self.put(local_file, remote_file)
+            input('\n' + self.tabs + local_file + "    ----->     " + remote_file)
+            self.close()
+        else:
+            input(self.tabs + "Wrong file name.")
+            
 
-    def get_host(self):
-        return self.host
+    def download_file(self):
+        pysftp.Connection.__init__(self, host=self.host, username=self.user, private_key=self.key)
+        remote_file = input(self.tabs + "Remote file: ")
+        if self.isfile(remote_file):
+            local_file_deposit = input(self.tabs + "Local folder(optional): ")
+            if not local_file_deposit or not os.path.isdir(local_file_deposit):
+                print(self.tabs + "default deposit used")
+                local_file_deposit = self.default_local_deposit
+            local_file = os.path.join(local_file_deposit, remote_file.split('/')[-1])
+            self.get(remote_file, local_file)
+            input('\n' + self.tabs + remote_file + "    ----->     " + local_file)
+            self.close()
+        else:
+            input(self.tabs + "Wrong file name.")
 
 
 
