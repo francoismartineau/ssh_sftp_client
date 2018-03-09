@@ -5,7 +5,7 @@ import util
 #/home/pi/Downloads
 ####################################################
 USER = 'pi'
-HOST = '192.168.0.6'
+HOST = '70.80.147.138'
 KEY = 'C:\\Users\\ffran\\.ssh\\raspberrypi.id_rsa'
 DEFAULT_LOCAL_DEPOSIT = "C:\\Users\\ffran\\Downloads"
 DEFAULT_REMOTE_DEPOSIT = "/home/pi/Downloads"

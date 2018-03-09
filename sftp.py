@@ -18,7 +18,7 @@ class Client(pysftp.Connection):
         self.tabs = "\t"
         print(self.tabs + "[1] Upload")
         print(self.tabs + "[2] Download")
-        print(self.tabs + "[3] Git bash")
+        print(self.tabs + "[3] Navigate")
     
     def get_entry(self):
         answer = input(self.tabs)
